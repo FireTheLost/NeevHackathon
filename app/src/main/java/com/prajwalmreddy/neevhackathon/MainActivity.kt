@@ -1,22 +1,24 @@
 package com.prajwalmreddy.neevhackathon
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.Toast
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val url = "https://en.wikipedia.org/wiki/Tropical_cyclone"
+
         val button: Button = findViewById(R.id.button)
-
-        val randomStrings: Array<String> = arrayOf("Hello There", "'Sup", "Testing", "Checking")
-
         button.setOnClickListener {
-            val toast = Toast.makeText(this, randomStrings.random(), Toast.LENGTH_SHORT)
-            toast.show()
+            val results = Scraper.scrape(url)
+
+            val textview: TextView = findViewById(R.id.textView)
+            textview.text = results[0]
         }
     }
 }
