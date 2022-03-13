@@ -1,23 +1,19 @@
 package com.prajwalmreddy.neevhackathon;
 
-import android.os.AsyncTask;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Searcher extends AsyncTask<String, Void, String> {
-    protected String doInBackground(String... strings) {
-        String url1 = strings[0];
-
+public class Searcher {
+    protected static String search(String topic) {
         HttpURLConnection conn;
         BufferedReader reader;
         String line;
         StringBuilder responseContent = new StringBuilder("");
 
         try {
-            URL url = new URL(url1);
+            URL url = new URL("https://192.168.1.13:5000");
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
 
@@ -32,6 +28,6 @@ public class Searcher extends AsyncTask<String, Void, String> {
             return error.toString();
         }
 
-        return responseContent.toString();
+        return topic;
     }
 }
