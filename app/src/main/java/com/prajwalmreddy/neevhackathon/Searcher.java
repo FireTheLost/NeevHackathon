@@ -13,12 +13,15 @@ public class Searcher {
         StringBuilder responseContent = new StringBuilder("");
 
         try {
-            URL url = new URL("https://192.168.1.13:5000");
+            // Connect To The Server
+            URL url = new URL("https://192.168.1.13:5000"); // Hardcode The URL For Now
+            // HTTP Request
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
 
             reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
+            // Get Response
             while ((line = reader.readLine()) != null) {
                 responseContent.append(line);
             }
