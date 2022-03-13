@@ -1,25 +1,37 @@
 package com.prajwalmreddy.neevhackathon;
 
+import android.os.AsyncTask;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Searcher {
-    String topic;
-    final String url = "https://localhost:5000"; // Hardcode The Server Url For Now
+public class Searcher extends AsyncTask<String, Void, String> {
+    protected String doInBackground(String... strings) {
+        String url1 = strings[0];
 
-    public Searcher(String topic) {
-        this.topic = topic;
-    }
+        HttpURLConnection conn;
+        BufferedReader reader;
+        String line;
+        StringBuilder responseContent = new StringBuilder("");
 
-    public String search() {
         try {
-            URL url = new URL(this.url);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
+            URL url = new URL(url1);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            while ((line = reader.readLine()) != null) {
+                responseContent.append(line);
+            }
+
+            reader.close();
         } catch (Exception error) {
             return error.toString();
         }
 
-        return this.topic;
+        return responseContent.toString();
     }
 }

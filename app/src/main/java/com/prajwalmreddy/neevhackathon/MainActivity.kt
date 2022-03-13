@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import kotlin.concurrent.thread
 
 
 class MainActivity : AppCompatActivity() {
@@ -11,15 +12,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val input: TextView = findViewById(R.id.editTextTextPersonName)
         val textview: TextView = findViewById(R.id.textView)
         val button: Button = findViewById(R.id.button)
 
         button.setOnClickListener {
-            // textview.text = input.text
+            var response = ""
 
-            val searcher = Searcher(input.text.toString())
-            textview.text = searcher.search()
+            val thread = thread {
+                var response: String = Searcher().doInBackground("http://192.168.1.13:5000")
+            }
+
+            thread.run()
+            textview.text = response
         }
     }
 }
